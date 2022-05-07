@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import GameUI from './components/GameUI'
 import './index.css'
 
 const App = () => {
@@ -15,7 +16,7 @@ const App = () => {
   
   return (
     <div>
-      Random word {solution && <h1>{solution}</h1>}
+      {solution && <GameUI solution={solution} />}
     </div>
   )
 }
