@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import GameUI from './components/GameUI'
 import './index.css'
 
+// json-server ./data/db.json --port 3001 -- add to read me
+
 const App = () => {
   const [solution, setSolution] = useState(null)
   useEffect(() => {
