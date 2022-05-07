@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+# Game to be Named
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is going to eventually be a wordle clone rpg. 
 
-## Available Scripts
+## Project Steps
 
-In the project directory, you can run:
+### First the Clone
 
-### `npm start`
+The starting meat of the project. Figure out how wordle does what it does and get it out there. Pick word. Let them guess. Reveal letters. Etc. Keypad for familiarity sake.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Then Determine Data Storage
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Should it be cookie/browser session based (almost certainly no). I'm thinking mongoDB/AWS for this one, however Firebase isn't a terrible option. I've just used it too many times lately and I'm bored with it. 
 
-### `npm test`
+### Track The User
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+IP address? Create an account? Google/Facebook/Git/whatever oAuth?
 
-### `npm run build`
+### Determine How Many Plays per Day
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Since this is an rpg focused on progression, once per day doesn't seem enough. But with infinite plays maybe takes away the excitement, and makes it too easy. Starting thinking 2 or 3. Maybe even just start off with 1. 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### RPG Elements
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Experience per word guess based on how many turns it takes you. Powerups that help you with puzzles, maybe gains you more experience, gets you refresh words. More guesses. Reveals. Whatever. 
 
-### `npm run eject`
+## Point?
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Is this story line driven? Is the point to maybe play more per day if you want resulting in eventual infinite plays? Or maybe
+a storyline? What's the point of all this. If it's a storyline...should it be silly? Serious? How to keep it infinite. Or, is there an "end game" and then you can enter infinite mode/challenge mode/what have you. Maybe the story line is something like...a future archeologist/excavator trying to decipher something about current day? Would
+guessing soccer moms passwords to unlock computers be too stupid/problematic? Maybe filling in words from a future find of a now ancient NY Times article. Who knows. Part of me likes the idea of some kind of...hacking? Or something situation. The game should start off hard and maybe partial experience points are awarded even if you fail, based on the number of characters you guess.

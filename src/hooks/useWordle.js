@@ -15,7 +15,6 @@ const useWordle = (solution) => {
 
     }
 
-
     // {key} is a DESTRUCTURED (javascript vocab word. a good google search topic) event which is passed into a keyup listener. so what this basically says is:
     /*
         const handleKeyUp(e) => {
@@ -59,7 +58,6 @@ const useWordle = (solution) => {
            here because I'm not certain that I'm limiting this 'game' to 5 letters.
         */
         ((/^[A-Za-z]$/).test(key) && currentGuess.length < solution.length) && setCurrentGuess(prev => (prev+key))
-
     }
 
     return {turn, currentGuess, guesses, isCorrect, handleKeyUp}
