@@ -8,7 +8,34 @@ const useWordle = (solution) => {
     const [isCorrect, setIsCorrect] = useState(false)
 
     const formatGuess = () => {
-        console.log('formatting the guess - ', currentGuess)
+        // ...solution is a spread function. It takes each individual character and "spreads" it into individual elements in an array
+        // ie if soultion = test, [...solution] = ['t', 'e', 's', 't']
+        let solutionArray = [...solution]
+
+        // this block spreads the current guess into an array. Then it converts this array into a NEW array using the map method. 
+        // this new array turns ['t', 'e', 's', 't'] into an array of objects defined in the return statement
+        // therefore formattedGuess would be [{key: 't', color: 'grey'}, {key: 'e', color: 'grey'}, {key: 's', color: 'grey'}, {key: 't', color: 'grey'},]
+        let formattedGuess = [...currentGuess].map(letter => {
+            return {key: letter, color: 'grey'}
+        })
+
+        // find any letters that should be green instead of grey
+        formattedGuess.forEach((letter, index) => {
+            if(solutionArray[index] === letter.key) {
+                formattedGuess[index].color = 'green'
+                solutionArray[index] = null
+            }
+        })
+
+        // find any letters that should be yellow
+        formattedGuess.forEach((letter, index) => {
+            if(solutionArray.includes(letter.key) && letter.color !== 'green') {
+                formattedGuess[index].color = 'yellow'
+                solutionArray[solutionArray.indexOf(letter.key)] = null
+            }
+        })
+
+        return formattedGuess
     }
 
     const addNewGuess = () => {
@@ -37,7 +64,8 @@ const useWordle = (solution) => {
                 console.log(`word must be ${solution.length} characters long`)
                 return
             }
-            formatGuess()
+            const enteredGuessFormatted = formatGuess()
+            console.log(solution, enteredGuessFormatted)
         }
 
         if(key === 'Backspace' && currentGuess.length > 0) {
