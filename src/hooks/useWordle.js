@@ -1,9 +1,13 @@
 import {useState} from 'react'
 
+// move to constants folder when necessary
+const MAX_NUM_GUESSES = 6
+
 const useWordle = (solution) => {
     const [turn, setTurn] = useState(0)
     const [currentGuess, setCurrentGuess] = useState('')
-    const [guesses, setGuesses] = useState([])
+    // guesses array should always be 6 (or number of guesses for now 6)
+    const [guesses, setGuesses] = useState([...Array(MAX_NUM_GUESSES)])
     const [history, setHistory] = useState([])
     const [isCorrect, setIsCorrect] = useState(false)
 
@@ -38,8 +42,17 @@ const useWordle = (solution) => {
         return formattedGuess
     }
 
-    const addNewGuess = () => {
+    const addNewGuess = (userGuess) => {
+        if(currentGuess === solution) setIsCorrect(true)
 
+        setGuesses(prevGuesses => {
+            let newGuesses = [...prevGuesses]
+            newGuesses[turn] = userGuess
+            return newGuesses
+        })
+        setHistory(prevHistory => [...prevHistory, currentGuess])
+        setTurn(prev => prev + 1)
+        setCurrentGuess('')
     }
 
     // {key} is a DESTRUCTURED (javascript vocab word. a good google search topic) event which is passed into a keyup listener. so what this basically says is:
@@ -65,7 +78,7 @@ const useWordle = (solution) => {
                 return
             }
             const enteredGuessFormatted = formatGuess()
-            console.log(solution, enteredGuessFormatted)
+            addNewGuess(enteredGuessFormatted)
         }
 
         if(key === 'Backspace' && currentGuess.length > 0) {
