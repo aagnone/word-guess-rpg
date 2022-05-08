@@ -80,7 +80,6 @@ const useWordle = (solution) => {
     const handleKeyUp = ({key}) => {
         if (key === 'Enter') {
 
-
             checkValid()
                 .then(res => {
                     if (!res) {

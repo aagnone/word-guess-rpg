@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import GameUI from './components/GameUI'
-import './index.css'
+import './styles/global.scss'
 
 // json-server ./data/db.json --port 3001 -- add to read me
 
