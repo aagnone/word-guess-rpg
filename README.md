@@ -29,3 +29,33 @@ Experience per word guess based on how many turns it takes you. Powerups that he
 Is this story line driven? Is the point to maybe play more per day if you want resulting in eventual infinite plays? Or maybe
 a storyline? What's the point of all this. If it's a storyline...should it be silly? Serious? How to keep it infinite. Or, is there an "end game" and then you can enter infinite mode/challenge mode/what have you. Maybe the story line is something like...a future archeologist/excavator trying to decipher something about current day? Would
 guessing soccer moms passwords to unlock computers be too stupid/problematic? Maybe filling in words from a future find of a now ancient NY Times article. Who knows. Part of me likes the idea of some kind of...hacking? Or something situation. The game should start off hard and maybe partial experience points are awarded even if you fail, based on the number of characters you guess.
+
+# Setup
+
+## Install Node
+
+### [https://nodejs.org/en/download/] (Install Node)
+
+## Install Yarn 
+
+### [https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable](Install Yarn)
+
+## Clone Repo
+
+### `git clone https://github.com/aagnone/word-guess-rpg.git`
+
+## Install Dependencies
+
+### `yarn`
+
+## Install Json-Server globally
+
+### `npm install -g json-server`
+
+## Start Json-Server
+
+### `json server ./data/db.json --port 3001`
+
+## Start project
+
+## `yarn start`
