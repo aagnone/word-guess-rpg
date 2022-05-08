@@ -34,11 +34,11 @@ guessing soccer moms passwords to unlock computers be too stupid/problematic? Ma
 
 ## Install Node
 
-### [https://nodejs.org/en/download/] (Install Node)
+### (Install Node)[https://nodejs.org/en/download/] 
 
 ## Install Yarn 
 
-### [https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable](Install Yarn)
+### (Install Yarn)[https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable]
 
 ## Clone Repo
 
