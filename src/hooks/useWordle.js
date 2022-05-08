@@ -55,6 +55,22 @@ const useWordle = (solution) => {
         setCurrentGuess('')
     }
 
+    const checkValid = async () => {
+        let isValid 
+        try {
+            await fetch('http://localhost:3001/validWords')
+                .then(res => res.json())
+                .then(json => {
+                    isValid = JSON.stringify(json).includes(currentGuess)
+                })
+        } catch (e) {
+            console.log(e)
+            throw e
+        }
+
+        return isValid
+    }
+
     // {key} is a DESTRUCTURED (javascript vocab word. a good google search topic) event which is passed into a keyup listener. so what this basically says is:
     /*
         const handleKeyUp(e) => {
@@ -63,22 +79,35 @@ const useWordle = (solution) => {
     */
     const handleKeyUp = ({key}) => {
         if (key === 'Enter') {
-            if (turn > 5 ) {
-                console.log('you used all your guesses')
-                return
-            }
 
-            if (history.includes(currentGuess)){
-                console.log('you have tried this word already')
-                return
-            }
 
-            if (currentGuess.length !== solution.length) {
-                console.log(`word must be ${solution.length} characters long`)
-                return
-            }
-            const enteredGuessFormatted = formatGuess()
-            addNewGuess(enteredGuessFormatted)
+            checkValid()
+                .then(res => {
+                    if (!res) {
+                        console.log('Not in word list')
+                        return
+                    }
+                    if (turn > 5 ) {
+                        console.log('you used all your guesses')
+                        return
+                    }
+        
+                    if (history.includes(currentGuess)){
+                        console.log('you have tried this word already')
+                        return
+                    }
+        
+                    if (currentGuess.length !== solution.length) {
+                        console.log(`word must be ${solution.length} characters long`)
+                        return
+                    }
+                    const enteredGuessFormatted = formatGuess()
+                    addNewGuess(enteredGuessFormatted)
+                })
+                .catch(e => {
+                    console.log(e)
+                })
+
         }
 
         if(key === 'Backspace' && currentGuess.length > 0) {
