@@ -10,6 +10,7 @@ const useWordle = (solution) => {
     const [guesses, setGuesses] = useState([...Array(MAX_NUM_GUESSES)])
     const [history, setHistory] = useState([])
     const [isCorrect, setIsCorrect] = useState(false)
+    const [usedKeys, setUsedKeys] = useState({}) // {a: 'green', b: 'yellow', c: 'grey'}
 
     const formatGuess = () => {
         // ...solution is a spread function. It takes each individual character and "spreads" it into individual elements in an array
@@ -52,16 +53,37 @@ const useWordle = (solution) => {
         })
         setHistory(prevHistory => [...prevHistory, currentGuess])
         setTurn(prev => prev + 1)
+        setUsedKeys(prevUsedKeys => {
+            let newKeys = {...prevUsedKeys}
+
+            userGuess.forEach(l => {
+                const currentColor = newKeys[l.key]
+
+                if(l.color === 'green'){
+                    newKeys[l.key] = 'green'
+                    return
+                }
+                if(l.color === 'yellow' && currentColor !== 'green'){
+                    newKeys[l.key] = 'yellow'
+                    return
+                }
+                if(l.color === 'grey' && currentColor !== 'green' && currentColor !== 'yellow') {
+                    newKeys[l.key] = 'grey'
+                    return
+                }
+            })
+            return newKeys
+        })
         setCurrentGuess('')
     }
 
     const checkValid = async () => {
         let isValid 
         try {
-            await fetch('http://localhost:3001/validWords')
+            await fetch(`http://localhost:5000/api/viable${solution.length}`)
                 .then(res => res.json())
                 .then(json => {
-                    isValid = JSON.stringify(json).includes(currentGuess)
+                    isValid = JSON.stringify(json.viable).includes(currentGuess)
                 })
         } catch (e) {
             console.log(e)
@@ -129,7 +151,7 @@ const useWordle = (solution) => {
         ((/^[A-Za-z]$/).test(key) && currentGuess.length < solution.length) && setCurrentGuess(prev => (prev+key))
     }
 
-    return {turn, currentGuess, guesses, isCorrect, handleKeyUp}
+    return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyUp}
 }
 
 export default useWordle

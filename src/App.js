@@ -7,10 +7,10 @@ import './styles/global.scss'
 const App = () => {
   const [solution, setSolution] = useState(null)
   useEffect(() => {
-    fetch('http://localhost:3001/solutions')
+    fetch('http://localhost:5000/api/solutions5')
       .then(res => res.json())
-      .then(json => {
-        const randomSolution = json[Math.floor(Math.random() * json.length)]
+      .then(data => {
+        const randomSolution = data.solutions[Math.floor(Math.random() * data.solutions.length)]
         setSolution(randomSolution)
       })
     return
