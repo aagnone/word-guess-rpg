@@ -1,31 +1,25 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
+import { StoryContext } from '../context/StoryContext'
 
 // move to constants folder when necessary
 const MAX_NUM_GUESSES = 6
 
-const useWordle = (solution) => {
+const useStory = (solution) => {
+    const {setSolved, setSolvedWords} = useContext(StoryContext)
     const [turn, setTurn] = useState(0)
     const [currentGuess, setCurrentGuess] = useState('')
-    // guesses array should always be 6 (or number of guesses for now 6)
     const [guesses, setGuesses] = useState([...Array(MAX_NUM_GUESSES)])
     const [history, setHistory] = useState([])
     const [isCorrect, setIsCorrect] = useState(false)
-    const [usedKeys, setUsedKeys] = useState({}) // {a: 'green', b: 'yellow', c: 'grey'}
+    const [usedKeys, setUsedKeys] = useState({})
     // const [totalGuess, setTotalGuesses] = useState(0)
 
     const formatGuess = () => {
-        // ...solution is a spread function. It takes each individual character and "spreads" it into individual elements in an array
-        // ie if soultion = test, [...solution] = ['t', 'e', 's', 't']
         let solutionArray = [...solution]
-
-        // this block spreads the current guess into an array. Then it converts this array into a NEW array using the map method. 
-        // this new array turns ['t', 'e', 's', 't'] into an array of objects defined in the return statement
-        // therefore formattedGuess would be [{key: 't', color: 'grey'}, {key: 'e', color: 'grey'}, {key: 's', color: 'grey'}, {key: 't', color: 'grey'},]
         let formattedGuess = [...currentGuess].map(letter => {
             return {key: letter, color: 'grey'}
         })
 
-        // find any letters that should be green instead of grey
         formattedGuess.forEach((letter, index) => {
             if(solutionArray[index] === letter.key) {
                 formattedGuess[index].color = 'green'
@@ -33,7 +27,6 @@ const useWordle = (solution) => {
             }
         })
 
-        // find any letters that should be yellow
         formattedGuess.forEach((letter, index) => {
             if(solutionArray.includes(letter.key) && letter.color !== 'green') {
                 formattedGuess[index].color = 'yellow'
@@ -45,7 +38,11 @@ const useWordle = (solution) => {
     }
 
     const addNewGuess = (userGuess) => {
-        if(currentGuess === solution) setIsCorrect(true)
+        if(currentGuess === solution) {
+            setIsCorrect(true)
+            setSolved(prev => (prev + 1))
+            setSolvedWords(prev => [...prev, currentGuess])
+        } 
 
         setGuesses(prevGuesses => {
             let newGuesses = [...prevGuesses]
@@ -94,12 +91,6 @@ const useWordle = (solution) => {
         return isValid
     }
 
-    // {key} is a DESTRUCTURED (javascript vocab word. a good google search topic) event which is passed into a keyup listener. so what this basically says is:
-    /*
-        const handleKeyUp(e) => {
-            const key = e.key
-        }
-    */
     const handleKeyUp = ({key}) => {
         if (key === 'Enter') {
 
@@ -133,26 +124,12 @@ const useWordle = (solution) => {
         }
 
         if(key === 'Backspace' && currentGuess.length > 0) {
-            // prev => prev.slice(0, -1) is short hand for:
-            /*
-                setCurrentGuess((prev) => {
-                    return prev.slice(0, -1)
-                })
-            */
             setCurrentGuess(prev => prev.slice(0, -1))
         }
-
-        // this is javascript short hand that is nearly identical to the if check above. only using a declaration and && instead of if() and a { }
-        // I think it's cleaner and I like it. Of course the comments take a bit away from the 'cleanness' but I'm only explaining it this once.
-        /* 
-           regex test on key to make sure that backspace, shift, lControl etc isn't added to the the currentGuess state.  This could/should be
-           expanded should other characters be allowed. Also checking if the guess length matches the solution length. Not putting a set number 
-           here because I'm not certain that I'm limiting this 'game' to 5 letters.
-        */
         ((/^[A-Za-z]$/).test(key) && currentGuess.length < solution.length) && setCurrentGuess(prev => (prev+key))
     }
 
     return {turn, currentGuess, guesses, isCorrect, usedKeys, handleKeyUp}
 }
 
-export default useWordle
+export default useStory
