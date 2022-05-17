@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import GameUI from './components/GameUI'
-import UIBar from './components/UIBar'
 import './styles/global.scss'
 
 // json-server ./data/db.json --port 3001 -- add to read me
+
+// const DEV_MODE = true
 
 const App = ({mode}) => {
   const [solution, setSolution] = useState(null)
@@ -18,10 +19,15 @@ const App = ({mode}) => {
       })
     return
   }, [setSolution, mode])
+
+  // remove right click
+  // useEffect(() => {
+  //   DEV_MODE && document.addEventListener('contextmenu', e => e.preventDefault());
+  //   return document.addEventListener('contextmenu', e => e.preventDefault());
+  // }, [])
   
   return (
-    <div>
-      {/* <UIBar /> */}
+    <div className="gameContainer">
       {solution && <GameUI mode={mode} solution={solution} />}
     </div>
   )

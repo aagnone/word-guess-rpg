@@ -13,10 +13,10 @@
         transition: all 0.3s ease-in;
         cursor: 'pointer';
         &.backspace {
-            width: 100px;
+            width: 90px;
         }
         &.enter {
-            width: 120px;
+            width: 140px;
         }
         &.green {
             background: #5ac85a;
@@ -28,6 +28,19 @@
         }
         &.grey {
             background: #a1a1a1;
+            color: #fff;
+        }
+    }
+}
+
+.story-grid {
+    .key {
+        &.green {
+            background: #719935;
+            color: #fff;
+        }
+        &.yellow {
+            background: #aa9c1e;
             color: #fff;
         }
     }

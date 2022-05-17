@@ -1,0 +1,37 @@
+.home {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .container {
+        margin: 40px auto;
+        display: flex;
+        justify-content: space-around;
+        width: 80%;
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .rowSmall {
+                display: flex;
+                margin-bottom: 2px;
+                .cellSmall {
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 3px;
+                    margin-right: 2px;
+                    &.grey {
+                        background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(102,102,102,1) 100%);
+                    }
+                    &.orange {
+                        background: linear-gradient(0deg, rgba(66,38,0,1) 0%, rgba(227,129,0,1) 100%);
+                    }
+                    &.blue {
+                        background: linear-gradient(0deg, rgba(0,97,125,1) 0%, rgba(0,198,255,1) 100%);
+                    }
+                }
+            }
+        }
+    }
+}
