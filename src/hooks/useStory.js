@@ -1,11 +1,13 @@
 import {useState, useContext} from 'react'
 import { StoryContext } from '../context/StoryContext'
+import { UserContext } from '../context/UserContext'
 
 // move to constants folder when necessary
 const MAX_NUM_GUESSES = 6
 
 const useStory = (solution) => {
     const {setSolved, setSolvedWords} = useContext(StoryContext)
+    const {awardCurrency, updateSolveRate} = useContext(UserContext)
     const [turn, setTurn] = useState(0)
     const [currentGuess, setCurrentGuess] = useState('')
     const [guesses, setGuesses] = useState([...Array(MAX_NUM_GUESSES)])
@@ -42,6 +44,8 @@ const useStory = (solution) => {
             setIsCorrect(true)
             setSolved(prev => (prev + 1))
             setSolvedWords(prev => [...prev, currentGuess])
+            awardCurrency(turn)
+            updateSolveRate(turn)
         } 
 
         setGuesses(prevGuesses => {

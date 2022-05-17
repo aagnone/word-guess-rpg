@@ -2,20 +2,16 @@ import React, {useState, useEffect, useContext} from 'react'
 import '../styles/gameBoard.scss'
 import { StoryGridContainer } from './StoryGridContainer'
 import { StoryContext } from '../context/StoryContext'
-
+import replaceFromString from '../helpFunctions/replaceFromString'
+import Highlighter from "react-highlight-words"
 
 const StoryGrid = () => {
     const [newSolutions, setNewSolutions] = useState([])
-    const [test2, setTest2] = useState('')
+    const [clueText, setClueText] = useState('')
     const article = "It’s nearing midnight as Steve Bannon pushes past the bluegrass band in his living room and through a crowd of Republican congressmen, political operatives, and a few stray Duck Dynasty cast members. He’s trying to make his way back to the SiriusXM Patriot radio show, broadcasting live from a cramped corner of the 14-room townhouse he occupies a stone’s throw from the Supreme Court. It’s late February, the annual Conservative Political Action Conference is in full swing, and Bannon, as usual, is the whirlwind at the center of the action."
     const allASCII = [...Array(95).keys()].map(i => String.fromCharCode(i+32))
     const [currentSolve, setCurrentSolve] = useState(0)
     const {solved, solvedWords, totalSolutions, setTotalSolutions} = useContext(StoryContext)
-
-    function replaceFromString(arr,str){
-        let regex = new RegExp("\\b"+arr.join('|')+"\\b","gi")
-        return str.replace(regex, '_____')
-    }
 
     const removeSolutions = async articleWords => {
         let articleWordArray = articleWords.split(' ')
@@ -55,38 +51,50 @@ const StoryGrid = () => {
                 })
                 return jumbledWord.join('')
             })
-            setTest2(jumbledArticle.join(' '))
+            setClueText(jumbledArticle.join(' '))
         })
     }
 
     useEffect(() => {
       if(solved > 0 && solved === totalSolutions){
-        setTest2(article)
+        setClueText(article)
         return
       } 
       jumbleWords()
       return
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [solved])
     
     return (
         <div className="story-grid">
             <div className="article-clue">
                 <p>
-                    {test2}
+                    {
+                        solved > 0 ? 
+                            <Highlighter 
+                                highlightClassName='highlight'
+                                searchWords={solvedWords}
+                                autoEscape={true}
+                                textToHighlight={clueText}
+                            />
+                        :
+                        clueText
+                    }
                 </p>
             </div>
             <div className="solve-block">
-                <h2>{currentSolve < 1 ? 'Choose a Solve' : `Currently Solving ${currentSolve}`}</h2>
                 <div className="solveButtonsContainer">
                     {newSolutions.map((el, i) => {
                         const text = solvedWords.includes(el) ? el : `${i + 1}:_____`
-                        return <button 
+                        return (
+                                <button 
                                     key={`button${i}`} 
                                     onClick={() => setCurrentSolve(currentSolve === i + 1 ? 0 : i + 1)}
-                                    className={`solveButton ${solvedWords.includes(el) ? 'green' : ''}`}
+                                    className={`solveButton ${solvedWords.includes(el) ? 'green' : ''} ${currentSolve === i + 1 ? 'active' : 'inactive'}`}
                                 >
                                     {text}
                                 </button>
+                        )
                     })}
                 </div>
                 {newSolutions.map((el, i) => <StoryGridContainer isDotted={true} current={currentSolve} index={i + 1} key={`grid${i}`} solution={el} />)}
