@@ -1,17 +1,19 @@
 import React, {useState, useEffect, useContext} from 'react'
 import '../styles/gameBoard.scss'
-import { StoryGridContainer } from './StoryGridContainer'
+import { StoryGridContainer } from '../components/StoryGridContainer'
 import { StoryContext } from '../context/StoryContext'
 import replaceFromString from '../helpFunctions/replaceFromString'
 import Highlighter from "react-highlight-words"
+import { UserContext } from '../context/UserContext'
 
 const StoryGrid = () => {
     const [newSolutions, setNewSolutions] = useState([])
     const [clueText, setClueText] = useState('')
-    const article = "It’s nearing midnight as Steve Bannon pushes past the bluegrass band in his living room and through a crowd of Republican congressmen, political operatives, and a few stray Duck Dynasty cast members. He’s trying to make his way back to the SiriusXM Patriot radio show, broadcasting live from a cramped corner of the 14-room townhouse he occupies a stone’s throw from the Supreme Court. It’s late February, the annual Conservative Political Action Conference is in full swing, and Bannon, as usual, is the whirlwind at the center of the action."
+    const article = "Simplicity requires a two-step process. First, we must invest time and energy to discover what stirs us as human beings, what makes our hearts sing, and what brings us joy. Then, we must proceed to create the life that reflects the unique people we truly are. This is the heart and soul of simplicity."
     const allASCII = [...Array(95).keys()].map(i => String.fromCharCode(i+32))
     const [currentSolve, setCurrentSolve] = useState(0)
     const {solved, solvedWords, totalSolutions, setTotalSolutions} = useContext(StoryContext)
+    const {userEquipment} = useContext(UserContext)
 
     const removeSolutions = async articleWords => {
         let articleWordArray = articleWords.split(' ')
@@ -84,6 +86,7 @@ const StoryGrid = () => {
             </div>
             <div className="solve-block">
                 <div className="solveButtonsContainer">
+                    <button className={`${currentSolve === 0 && 'active'} solveButton`} onClick={() => setCurrentSolve(0)}><p>Gear</p></button>
                     {newSolutions.map((el, i) => {
                         const text = solvedWords.includes(el) ? el : `${i + 1}:_____`
                         return (
@@ -92,12 +95,15 @@ const StoryGrid = () => {
                                     onClick={() => setCurrentSolve(currentSolve === i + 1 ? 0 : i + 1)}
                                     className={`solveButton ${solvedWords.includes(el) ? 'green' : ''} ${currentSolve === i + 1 ? 'active' : 'inactive'}`}
                                 >
-                                    {text}
+                                    <p>{text}</p>
                                 </button>
                         )
                     })}
                 </div>
-                {newSolutions.map((el, i) => <StoryGridContainer isDotted={true} current={currentSolve} index={i + 1} key={`grid${i}`} solution={el} />)}
+                <div className='grid-container'>
+                    {currentSolve === 0 && <div><h1>Gear</h1><p>{userEquipment.length > 0 ? 'you have equipment' : 'Spend Currency to purchase gear to help your solve'}</p></div>}
+                    {newSolutions.map((el, i) => <StoryGridContainer isDotted={true} current={currentSolve} index={i + 1} key={`grid${i}`} solution={el} />)}
+                </div>
             </div>
         </div>
     )

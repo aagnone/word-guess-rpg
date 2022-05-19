@@ -1,0 +1,50 @@
+@keyframes reveal {
+    0% {
+        transform: translateY(-100%);
+    }
+    45% {
+        transform: translateY(100%);
+    }
+    55% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateX(0);
+        background: #fff;
+        border-color: #333;
+    }
+    45% {
+        transform: rotateX(90deg);
+        background: #fff;
+        border-color: #333;
+    }
+    55% {
+        transform: rotateX(90deg);
+        background: var(--background);
+        border-color: var(--border-color);
+    }
+    100% {
+        transform: rotateX(0deg);
+        background: var(--background);
+        border-color: var(--border-color);
+        color: #eee;
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

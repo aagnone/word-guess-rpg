@@ -20,8 +20,9 @@ export const StoryGridContainer = ({solution, current, index}) => {
     }, [handleKeyUp, current, index, isCorrect, turn, updateSolveRate])
 
     return (
-        <div className={current !== index ? 'sr-only' : 'grid-container'}>
+        <div className={current !== index ? 'sr-only' : 'solve-instance'}>
             <Grid solutionLength={solution.length} currentGuess={currentGuess} guesses={guesses} turn={turn}/>
+            <div className="error"><p>Example error message: Word not in database.</p></div>
             <Keypad usedKeys={usedKeys} />
         </div>
     )

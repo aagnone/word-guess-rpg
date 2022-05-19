@@ -3,6 +3,7 @@ body {
     font-size: 1rem;
     font-family: verdana;
     margin: 0;
+    height: 100%;
   }
   
   h1 {
@@ -13,19 +14,20 @@ body {
     color: #333;
   }
   
-  .sr-only {
-    position:absolute;
-    left:-10000px;
-    top:auto;
-    width:1px;
-    height:1px;
-    overflow:hidden;
-    }
+.sr-only {
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
   
 .gameContainer {
   max-width: 420px;
-  width: 420px;
+  width: 100%;
   margin: 0 auto;
+  height: 100vh;
 }
 
 button {

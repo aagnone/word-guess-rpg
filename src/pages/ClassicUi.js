@@ -1,14 +1,18 @@
-import React, {useEffect, useState} from 'react'
-import Grid from './Grid'
-import Keypad from './Keypad'
-import Modal from './Modal'
+import React, {useContext, useEffect, useState} from 'react'
+import Grid from '../components/Grid'
+import Keypad from '../components/Keypad'
+import Modal from '../components/Modal'
 import useWordle from '../hooks/useWordle'
+import { ClassicContext } from '../context/ClassicContext'
+import TopBar from '../components/TopBar'
 
 const MAX_TOTAL_TURNS = 5
 
-const ClassicGridContainer = ({solution}) => {
+const ClassicUi = () => {
+    const {solution} = useContext(ClassicContext)
     const {currentGuess, handleKeyUp, guesses, isCorrect, turn, usedKeys} = useWordle(solution)
     const [showModal, setShowModal] = useState(false)
+
     useEffect(() => {
         window.addEventListener('keyup', handleKeyUp)
 
@@ -21,13 +25,19 @@ const ClassicGridContainer = ({solution}) => {
 
         return () => window.removeEventListener('keyup', handleKeyUp)
     }, [handleKeyUp, isCorrect, turn])
+
+    if(!solution){
+        return <div><h1>Loading...</h1></div>
+    }
+
     return (
-        <div>
+        <>
+            <TopBar />
             <Grid solutionLength={solution.length} currentGuess={currentGuess} guesses={guesses} turn={turn}/>
             <Keypad usedKeys={usedKeys} />
             {showModal && <Modal guesses={guesses} isCorrect={isCorrect} turn={turn} solution={solution}/>}
-        </div>
+        </>
     )
 }
 
-export default ClassicGridContainer
+export default ClassicUi
